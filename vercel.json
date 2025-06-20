@@ -8,5 +8,5 @@
      { "source": "/proxy/(.*)", "destination": "/api/proxy/$1" }
   ],
   "cleanUrls": true,
-  "public": "public"
+  "public": true
 }
