@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartCommunity | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .home-container {
+      text-align: center;
+      max-width: 700px;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .home-container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #84fab0;
+    }
+
+    .home-container p {
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-bottom: 30px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-group button {
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login {
+      background: linear-gradient(to right, #00b09b, #96c93d);
+      color: #fff;
+    }
+
+    .btn-register {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: #fff;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(to right, #00a896, #8bc34a);
+    }
+
+    .btn-register:hover {
+      background: linear-gradient(to right, #e53935, #e35d5b);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      .home-container h1 {
+        font-size: 2rem;
+      }
+
+      .btn-group button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="home-container">
+    <h1>Welcome to Smart Community</h1>
+    <p>Your neighborhood portal to raise complaints, vote, and manage issues seamlessly.</p>
+
+    <div class="btn-group">
+      <button class="btn-login" onclick="goToLogin()">Login</button>
+      <button class="btn-register" onclick="goToRegister()">Register</button>
+    </div>
+
+    <footer>
+      &copy; 2025 SmartCommunity. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    function goToLogin() {
+      window.location.href = "login.html";
+    }
+
+    function goToRegister() {
+      window.location.href = "register.html";
+    }
+  </script>
+</body>
+</html>

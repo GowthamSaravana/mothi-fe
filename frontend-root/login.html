@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Smart Community</title>
+  <style>
+    /* Google font for better look */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #eee;
+    }
+
+    .login-box {
+      background: #121212;
+      width: 380px;
+      max-width: 100%;
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow:
+        0 10px 30px rgba(0, 150, 255, 0.4),
+        inset 0 0 10px rgba(0, 150, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      /* 3D transform effect */
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.4s ease;
+    }
+
+    .login-box:hover {
+      transform: rotateY(10deg) rotateX(5deg);
+      box-shadow:
+        0 20px 40px rgba(0, 150, 255, 0.6),
+        inset 0 0 20px rgba(0, 150, 255, 0.3);
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 25px;
+      text-shadow: 0 0 8px #00aaffaa;
+    }
+
+    input {
+      width: 100%;
+      background: #222;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      color: #eee;
+      margin-bottom: 20px;
+      box-shadow:
+        inset 3px 3px 6px #0a0a0a,
+        inset -3px -3px 6px #2c2c2c;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input::placeholder {
+      color: #555;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow:
+        0 0 8px #00aaff,
+        inset 3px 3px 8px #00aaff;
+      background: #111;
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(145deg, #0066ff, #003d99);
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow:
+        0 5px 15px rgba(0, 102, 255, 0.6);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background: linear-gradient(145deg, #3399ff, #0052cc);
+      box-shadow:
+        0 8px 25px rgba(51, 153, 255, 0.8);
+    }
+
+    .error {
+      color: #ff4d4d;
+      margin-top: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-align: center;
+      min-height: 24px;
+      text-shadow: 0 0 3px #ff4d4daa;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 420px) {
+      .login-box {
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 12px;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      input {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box" tabindex="0">
+    <h2>Smart Community Login</h2>
+    <input type="text" id="username" placeholder="Username" autocomplete="username" />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+    <button onclick="login()">Login</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      const errorEl = document.getElementById("error");
+      errorEl.innerText = '';
+
+      if (!username || !password) {
+        errorEl.innerText = "Please enter username and password.";
+        return;
+      }
+
+      fetch("http://raiseandresolve-app-env.eba-cvcff52c.us-east-1.elasticbeanstalk.com/getusers", {
+        method: "GET",
+        headers: {
+          "Authorization": "Basic " + btoa(username + ":" + password)
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          localStorage.setItem("auth", btoa(username + ":" + password));
+          localStorage.setItem("username", username);
+          window.location.href = "dashboard.html";
+        } else if (response.status === 401) {
+          errorEl.innerText = "Invalid credentials!";
+        } else {
+          errorEl.innerText = "Login failed, please try again.";
+        }
+      })
+      .catch(error => {
+        errorEl.innerText = "Invalid Credentials!";
+        console.error("Error:", error);
+      });
+    }
+  </script>
+  
+</body>
+</html>
+
+

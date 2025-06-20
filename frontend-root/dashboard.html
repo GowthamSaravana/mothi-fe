@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Community Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #eee;
+      background: url('/images/flat.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      background: rgba(10, 30, 50, 0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo img {
+      height: 40px;
+      width: 40px;
+      border-radius: 10px;
+      filter: drop-shadow(0 0 5px #00aaffaa);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00aaff;
+      text-shadow: 0 0 8px #00aaffbb;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      color: #00caff;
+      cursor: pointer;
+    }
+
+    /* Welcome */
+    .welcome {
+      position: fixed;
+      top: 80px;
+      left: 2rem;
+      background: linear-gradient(145deg, #00aaff, #004477);
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 20px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      box-shadow: 0 0 12px #00e0ffcc, inset 0 0 10px #0074aa;
+      z-index: 90;
+    }
+
+    /* Main Content */
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      height: calc(100vh - 100px);
+      padding: 3rem 2rem 2rem;
+      margin-top: 70px;
+    }
+
+    .card {
+      background: rgba(20, 30, 50, 0.65);
+      width: 280px;
+      height: 280px;
+      border-radius: 18px;
+      box-shadow:
+        0 8px 20px rgba(0, 170, 255, 0.25),
+        inset 0 0 15px rgba(0, 170, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      color: #a0d8ff;
+      font-weight: 600;
+      border: 2px solid transparent;
+    }
+
+    .card:hover {
+      transform: translateY(-15px);
+      box-shadow:
+        0 20px 50px rgba(0, 170, 255, 0.6),
+        inset 0 0 20px rgba(0, 170, 255, 0.2);
+      background: rgba(10, 25, 45, 0.85);
+      border-color: #00aaff;
+      color: #00caff;
+    }
+
+    .card img {
+      height: 100px;
+      margin-bottom: 1.4rem;
+      filter: drop-shadow(0 0 8px #00aaff88);
+    }
+
+    .card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 0 5px #00aaffbb;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #80cfffcc;
+      max-width: 90%;
+      margin: 0 auto;
+      font-weight: 500;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(10, 30, 50, 0.85);
+      backdrop-filter: saturate(180%) blur(10px);
+      color: #00aaffcc;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      font-weight: 400;
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.6);
+      z-index: 100;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(10, 30, 50, 0.95);
+        padding: 1rem 0;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        margin: 1rem 0;
+        font-size: 1.1rem;
+      }
+
+      main {
+        flex-direction: column;
+        padding: 2rem 1rem 4rem;
+        height: auto;
+      }
+
+      .welcome {
+        top: 75px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Community Logo" />
+    Raise And Resolve Portal
+  </div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <nav id="navbar">
+    <a href="dashboard.html">Home</a>
+    <a href="complaints.html">Complaints</a>
+    <a href="vote.html">Votes</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
+
+<div class="welcome" id="welcomeUser">Welcome, Jai</div>
+
+<main>
+  <div class="card" onclick="goToComplaints()">
+    <img src="https://img.icons8.com/fluency/96/000000/complaint.png" alt="Complaints" />
+    <h2>Complaint Services</h2>
+    <p>Raise, View, and Manage Complaints</p>
+  </div>
+
+  <div class="card" onclick="goToVotes()">
+    <img src="/images/vote.png" alt="Votes" />
+    <h2>Vote Services</h2>
+    <p>View and Vote on Community Complaints</p>
+  </div>
+</main>
+
+<footer>
+  &copy;  Raise And Resolve Portal &nbsp; | &nbsp; Contact: raise.resolve.com | Easing Community Grievances with One Click
+</footer>
+
+<script>
+  
+  const username = localStorage.getItem('username') || 'Jai';
+  document.getElementById('welcomeUser').innerText = `Welcome, ${username}`;
+
+  function goToComplaints() {
+    window.location.href = 'complaints.html';
+  }
+
+  function goToVotes() {
+    window.location.href = 'vote.html';
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+  }
+
+  function toggleMenu() {
+    const nav = document.getElementById('navbar');
+    nav.classList.toggle('show');
+  }
+</script>
+
+</body>
+</html>

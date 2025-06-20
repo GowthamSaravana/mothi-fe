@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vote on Complaints - Smart Community</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #001f3f, #003366, #004c99);
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 2rem 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 170, 255, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00caff;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(0,170,255,0.4);
+    }
+
+    .complaint {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 170, 255, 0.2);
+      box-shadow: 0 0 10px rgba(0,170,255,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .complaint:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,170,255,0.2);
+    }
+
+    .complaint strong {
+      font-size: 1.2rem;
+      color: #00caff;
+    }
+
+    .complaint p {
+      color: #dff9ff;
+      margin: 0.7rem 0;
+    }
+
+    .complaint small {
+      color: #aadfff;
+      display: block;
+      margin-bottom: 0.7rem;
+    }
+
+    .vote-btn {
+      background-color: #00aaff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,170,255,0.4);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .vote-btn:hover {
+      background-color: #0088cc;
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      .vote-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Vote on Community Complaints</h2>
+    <div id="complaintList"></div>
+  </div>
+
+  <script>
+    const BASE_URL = "http://raiseandresolve-app-env.eba-cvcff52c.us-east-1.elasticbeanstalk.com";
+    const authHeader = "Basic " + localStorage.getItem("auth");
+
+    if (!localStorage.getItem("auth")) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    }
+
+    async function fetchComplaints() {
+      try {
+        const response = await fetch(`${BASE_URL}/complaints/priority`, {
+          headers: { 'Authorization': authHeader }
+        });
+        const complaints = await response.json();
+        displayComplaints(complaints);
+      } catch (error) {
+        alert("Error loading complaints");
+        console.error(error);
+      }
+    }
+
+    function displayComplaints(complaints) {
+      const container = document.getElementById("complaintList");
+      container.innerHTML = "";
+
+      if (!complaints || complaints.length === 0) {
+        container.innerHTML = "<p>No complaints available for voting.</p>";
+        return;
+      }
+
+      complaints.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "complaint";
+        div.innerHTML = `
+          <strong>${escapeHtml(c.title)}</strong> (${escapeHtml(c.category)})<br>
+          <p>${escapeHtml(c.description)}</p>
+          <small>Votes: <span id="voteCount-${c.id}">${c.voteCount}</span> | Raised By: ${escapeHtml(c.raisedBy)}</small>
+          <button class="vote-btn" onclick="submitVote(${c.id})">Vote</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function submitVote(complaintId) {
+      try {
+        const response = await fetch(`${BASE_URL}/votes/${complaintId}`, {
+          method: "POST",
+          headers: {
+            'Authorization': authHeader
+          }
+        });
+        const result = await response.text();
+        alert(result);
+        updateVoteCount(complaintId);
+      } catch (error) {
+        alert("Error submitting vote");
+        console.error(error);
+      }
+    }
+
+    async function updateVoteCount(complaintId) {
+      try {
+        const response = await fetch(`${BASE_URL}/votes/count/${complaintId}`, {
+          headers: { 'Authorization': authHeader }
+        });
+        const count = await response.text();
+        document.getElementById(`voteCount-${complaintId}`).innerText = count;
+      } catch (error) {
+        console.error("Error updating vote count", error);
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    fetchComplaints();
+  </script>
+</body>
+</html>
