@@ -149,7 +149,7 @@
 
     async function submitVote(complaintId) {
       try {
-        const response = await fetch(`${BASE_URL}/votes/${complaintId}`, {
+        const response = await fetch(`/proxy/votes/${complaintId}`, {
           method: "POST",
           headers: {
             'Authorization': authHeader
@@ -166,7 +166,7 @@
 
     async function updateVoteCount(complaintId) {
       try {
-        const response = await fetch(`${BASE_URL}/votes/count/${complaintId}`, {
+        const response = await fetch(`/proxy/votes/count/${complaintId}`, {
           headers: { 'Authorization': authHeader }
         });
         const count = await response.text();
