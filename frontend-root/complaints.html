@@ -186,7 +186,7 @@
       formData.append('email', document.getElementById('email').value);
 
       try {
-        const response = await fetch(BACKEND_URL + '/complaints/add', {
+        const response = await fetch('/proxy/complaints/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -210,7 +210,7 @@
 
     async function loadMyComplaints() {
       try {
-        const res = await fetch(BACKEND_URL + '/complaints/my', {
+        const res = await fetch('/proxy/complaints/my', {
           headers: { 'Authorization': authHeader }
         });
         if (!res.ok) throw new Error('Failed to load complaints');

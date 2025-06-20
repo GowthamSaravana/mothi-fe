@@ -162,7 +162,7 @@
         return;
       }
 
-      fetch("http://raiseandresolve-app-env.eba-cvcff52c.us-east-1.elasticbeanstalk.com/getusers", {
+      fetch("/proxy/getusers", {
         method: "GET",
         headers: {
           "Authorization": "Basic " + btoa(username + ":" + password)

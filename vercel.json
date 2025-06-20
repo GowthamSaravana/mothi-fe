@@ -4,7 +4,8 @@
     { "source": "/dashboard", "destination": "/frontend-root/dashboard.html" },
     { "source": "/vote", "destination": "/frontend-root/vote.html" },
     { "source": "/login", "destination": "/frontend-root/login.html" },
-    { "source": "/", "destination": "/frontend-root/index.html" }
+    { "source": "/", "destination": "/frontend-root/index.html" },
+     { "source": "/(.*)", "destination": "/api/proxy/$1" }
   ],
   "cleanUrls": true
 }

@@ -114,7 +114,7 @@
 
     async function fetchComplaints() {
       try {
-        const response = await fetch(`${BASE_URL}/complaints/priority`, {
+        const response = await fetch(`/proxy/complaints/priority`, {
           headers: { 'Authorization': authHeader }
         });
         const complaints = await response.json();
