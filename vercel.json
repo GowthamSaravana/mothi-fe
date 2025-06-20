@@ -1,10 +1,10 @@
 {
   "rewrites": [
-    { "source": "/complatins", "destination": "frontent-root/complaints.html" },
-    { "source": "/dashboard", "destination": "frontent-root/dashboard.html" },
-    { "source": "/vote", "destination": "frontent-root/vote.html" },
-    { "source": "/login", "destination": "frontent-root/login.html" },
-    { "source": "/", "destination": "frontent-root/index.html" }
+    { "source": "/complatins", "destination": "/frontent-root/complaints.html" },
+    { "source": "/dashboard", "destination": "/frontent-root/dashboard.html" },
+    { "source": "/vote", "destination": "/frontent-root/vote.html" },
+    { "source": "/login", "destination": "/frontent-root/login.html" },
+    { "source": "/", "destination": "/frontent-root/index.html" }
   ],
   "cleanUrls": true
 }
