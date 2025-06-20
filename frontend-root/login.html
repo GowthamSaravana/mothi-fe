@@ -172,7 +172,7 @@
         if (response.ok) {
           localStorage.setItem("auth", btoa(username + ":" + password));
           localStorage.setItem("username", username);
-          window.location.href = "dashboard.html";
+          window.location.href = "/dashboard";
         } else if (response.status === 401) {
           errorEl.innerText = "Invalid credentials!";
         } else {

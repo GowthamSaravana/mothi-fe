@@ -171,7 +171,7 @@
     const storedAuth = localStorage.getItem("auth");
     if (!storedAuth) {
       alert("Please login first.");
-      window.location.href = "login.html";
+      window.location.href = "/login";
     }
 
     const authHeader = "Basic " + storedAuth;
