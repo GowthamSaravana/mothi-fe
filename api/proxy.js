@@ -1,9 +1,21 @@
 import { URL } from "url";
 
+import { Buffer } from "buffer";
+
+function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", (chunk) => chunks.push(chunk));
+    req.on("end", () => {
+      resolve(Buffer.concat(chunks).toString("utf8")); // ✅ returns string
+    });
+    req.on("error", reject);
+  });
+}
+
 export default async function handler(req, res) {
   // Get full request URL (e.g. /proxy/users?id=123)
   const fullReqUrl = new URL(req.url, `http://${req.headers.host}`);
-  console.log({ fullReqUrl });
   // Extract the path after /proxy
   const targetPath = fullReqUrl.pathname.replace(/^\/proxy/, "") || "/";
   console.log({ targetPath });
@@ -16,22 +28,23 @@ export default async function handler(req, res) {
         : `${key}=${encodeURIComponent(value)}`
     )
     .join("&");
-
-  console.log({ queryString });
-  // Preserve query params
   const targetUrl = `http://raiseandresolve-app-env.eba-cvcff52c.us-east-1.elasticbeanstalk.com${targetPath}${
     queryString ? "?" + queryString : ""
   }`;
-  console.log({ targetUrl });
-  console.log({ headers: req.headers });
   try {
+    let body = undefined;
+    if (!["GET", "HEAD"].includes(req.method)) {
+      body = await getRawBody(req); // ✅ works with Node streams
+    }
+
     const response = await fetch(targetUrl, {
       method: req.method,
       headers: {
         ...req.headers,
         host: undefined,
+        "accept-encoding": undefined,
       },
-      body: ["GET", "HEAD"].includes(req.method) ? undefined : req.body,
+      body,
     });
 
     const contentType = response.headers.get("content-type");
