@@ -224,7 +224,7 @@
 
     async function loadAllComplaints() {
       try {
-        const res = await fetch(BACKEND_URL + '/complaints/priority', {
+        const res = await fetch('/proxy/complaints/priority', {
           headers: { 'Authorization': authHeader }
         });
         if (!res.ok) throw new Error('Failed to load top complaints');
@@ -261,7 +261,7 @@
     async function deleteComplaint(id) {
       if (confirm('Are you sure you want to delete this complaint?')) {
         try {
-          const res = await fetch(`${BACKEND_URL}/complaints/${id}`, {
+          const res = await fetch(`/proxy/complaints/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': authHeader }
           });
