@@ -1,11 +1,12 @@
 {
   "rewrites": [
-    { "source": "/complatins", "destination": "/frontend-root/complaints.html" },
-    { "source": "/dashboard", "destination": "/frontend-root/dashboard.html" },
-    { "source": "/vote", "destination": "/frontend-root/vote.html" },
-    { "source": "/login", "destination": "/frontend-root/login.html" },
-    { "source": "/", "destination": "/frontend-root/index.html" },
-     { "source": "/(.*)", "destination": "/api/proxy/$1" }
+    { "source": "/complatins", "destination": "/complaints.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/vote", "destination": "/vote.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/", "destination": "/index.html" },
+     { "source": "/proxy/(.*)", "destination": "/api/proxy/$1" }
   ],
-  "cleanUrls": true
+  "cleanUrls": true,
+  "public": "public"
 }
